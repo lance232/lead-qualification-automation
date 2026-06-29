@@ -1,0 +1,518 @@
+{
+  "name": "AI Lead Qualification & CRM Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "lead-qualification",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "e0ba7139-f224-44b4-a975-7e788ebd2e6e",
+      "name": "Webhook",
+      "webhookId": "f744bbb8-167e-450c-b93b-a0e5d1ef62e9"
+    },
+    {
+      "parameters": {
+        "model": "llama-3.1-8b-instant",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        416,
+        208
+      ],
+      "id": "2409a866-1f81-497f-8c77-2b93d78913b3",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "o8bUAor7PjyjEa9P",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"intent\": \"High\",\n  \"lead_score\": 92,\n  \"priority\": \"Hot\",\n  \"action\": \"SALES_CONTACT\",\n  \"summary\": \"Operations Manager from a logistics company requesting an automation demo with a budget over $10,000.\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        560,
+        208
+      ],
+      "id": "6035979e-1cb9-4ddc-a878-9925eed32613",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1KfhlqMicYeynWjip8en13WqjCQe9aleqSvSFdqpkpvU",
+          "mode": "list",
+          "cachedResultName": "AI Lead Qualification",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KfhlqMicYeynWjip8en13WqjCQe9aleqSvSFdqpkpvU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1008013752,
+          "mode": "list",
+          "cachedResultName": "AI Lead Qualification",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KfhlqMicYeynWjip8en13WqjCQe9aleqSvSFdqpkpvU/edit#gid=1008013752"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $('Normalize Lead Data').item.json.Name }}",
+            "Email": "={{ $('Normalize Lead Data').item.json.Email }}",
+            "Company": "={{ $('Normalize Lead Data').item.json.Company }}",
+            "Job Title": "={{ $('Normalize Lead Data').item.json[\"Job Title\"] }}",
+            "Industry": "={{ $('Normalize Lead Data').item.json.Industry }}",
+            "Company Size": "={{ $('Normalize Lead Data').item.json[\"Company Size\"] }}",
+            "Budget": "={{ $('Normalize Lead Data').item.json.Budget }}",
+            "Message": "={{ $('Normalize Lead Data').item.json.Message }}",
+            "Intent": "={{ $json.output.intent }}",
+            "Lead Score": "={{ $json.output.lead_score }}",
+            "Priority": "={{ $json.output.priority }}",
+            "Action": "={{ $json.output.action }}",
+            "Summary": "={{ $json.output.summary }}",
+            "Date Received": "={{ $now }}"
+          },
+          "matchingColumns": [
+            "output"
+          ],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Company",
+              "displayName": "Company",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Job Title",
+              "displayName": "Job Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Industry",
+              "displayName": "Industry",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Company Size",
+              "displayName": "Company Size",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Budget",
+              "displayName": "Budget",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Message",
+              "displayName": "Message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Intent",
+              "displayName": "Intent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Lead Score",
+              "displayName": "Lead Score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Priority",
+              "displayName": "Priority",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Action",
+              "displayName": "Action",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Summary",
+              "displayName": "Summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Date Received",
+              "displayName": "Date Received",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        720,
+        0
+      ],
+      "id": "6a205d8d-eafd-45a7-93d3-689a2ac4c88e",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "JcB64KscOu6i8Sw3",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "laverus05@gmail.com",
+        "subject": "=New Qualified Lead | {{ $('Normalize Lead Data').item.json.Company }} | Score: {{ $json[\"Lead Score\"] }}/100",
+        "emailType": "text",
+        "message": "=Hello Sales Team,\n\nA new lead has been successfully qualified and requires sales follow-up.\n\n────────────────────────────────\nLEAD INFORMATION\n────────────────────────────────\n\nName: {{ $('Normalize Lead Data').item.json.Name }}\n\nCompany: {{ $('Normalize Lead Data').item.json.Company }}\n\nJob Title: {{ $('Normalize Lead Data').item.json[\"Job Title\"] }}\n\nIndustry: {{ $('Normalize Lead Data').item.json.Industry }}\n\nCompany Size: {{ $('Normalize Lead Data').item.json[\"Company Size\"] }}\n\nBudget: {{ $('Normalize Lead Data').item.json.Budget }}\n\n────────────────────────────────\nLEAD ASSESSMENT\n────────────────────────────────\n\nLead Score: {{ $json[\"Lead Score\"] }}/100\n\nPriority: {{ $json.Priority }}\n\nRecommended Action: {{ $json.Action }}\n\nSummary:\n{{ $json.Summary }}\n\n────────────────────────────────\nNEXT STEPS\n────────────────────────────────\n\nThis lead has been classified as a high-priority opportunity based on the information submitted. Please review the lead details and initiate follow-up at your earliest convenience.\n\nThank you,\n\nLead Qualification System\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1136,
+        -96
+      ],
+      "id": "2f4972e4-8d3d-4a7e-b8db-942f63a33781",
+      "name": "Notify Sales Team",
+      "webhookId": "aac4776e-c51a-4f2c-b2f1-414e85a24e04",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "Ad3tlKHCw5yPNpyo",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b6678c25-d7b9-41b6-8a11-5b94025a71ff",
+              "name": "Name",
+              "value": "={{ $json.body.name }}",
+              "type": "string"
+            },
+            {
+              "id": "52880e88-f5f1-4241-8c58-9284895b7ec1",
+              "name": "Email",
+              "value": "={{ $json.body.email }}",
+              "type": "string"
+            },
+            {
+              "id": "e9d420ee-e292-4e0a-9e93-b9586d4082cd",
+              "name": "Company",
+              "value": "={{ $json.body.company }}",
+              "type": "string"
+            },
+            {
+              "id": "8019e6b4-9063-4205-96bd-58146d09997e",
+              "name": "Job Title",
+              "value": "={{ $json.body.job_title }}",
+              "type": "string"
+            },
+            {
+              "id": "3862c72c-0299-446e-a6cf-09c9ee9b83b6",
+              "name": "Industry",
+              "value": "={{ $json.body.industry }}",
+              "type": "string"
+            },
+            {
+              "id": "26b1a268-0c31-47bf-b887-8e8d728f2ddc",
+              "name": "Company Size",
+              "value": "={{ $json.body.company_size }}",
+              "type": "string"
+            },
+            {
+              "id": "afec4411-1133-47ae-8680-04f06acadf92",
+              "name": "Budget",
+              "value": "={{ $json.body.budget }}",
+              "type": "string"
+            },
+            {
+              "id": "ebaec71d-4b32-45d9-be62-2b6e562b09cf",
+              "name": "Message",
+              "value": "={{ $json.body.message }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        224,
+        0
+      ],
+      "id": "3aab044f-fe19-4bc8-88b0-f6f01c19ba07",
+      "name": "Normalize Lead Data"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are an experienced B2B Sales Qualification AI.\n\nYour task is to analyze incoming sales leads submitted through a company's website.\n\nLead Information\n\nName:\n{{ $json.Name }}\n\nEmail:\n{{ $json.Email }}\n\nCompany:\n{{ $json.Company }}\n\nJob Title:\n{{ $json[\"Job Title\"] }}\n\nIndustry:\n{{ $json.Industry }}\n\nCompany Size:\n{{ $json[\"Company Size\"] }}\n\nBudget:\n{{ $json.Budget }}\n\nMessage:\n{{ $json.Message }}\n\nYour tasks:\n\n1. Determine the purchase intent:\n- High\n- Medium\n- Low\n\n2. Assign a lead score from 0 to 100.\n\nScoring guidelines:\n- Budget above $10,000 increases score.\n- Decision-makers (CEO, CTO, Founder, Director, Manager) increase score.\n- Requests for demos, consultations, or implementation increase score.\n- Larger companies generally receive higher scores.\n- Vague or casual inquiries receive lower scores.\n\n3. Determine priority:\n- Hot\n- Warm\n- Cold\n\n4. Choose ONE action:\n- SALES_CONTACT\n- NURTURE\n\nChoose SALES_CONTACT when:\n- Lead Score is 80 or higher\n- Purchase intent is High\n\nOtherwise choose NURTURE.\n\n5. Write a concise internal summary (1-2 sentences) explaining why the lead received this score.\n\nReturn ONLY the structured output required by the output parser.",
+        "hasOutputParser": true,
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        416,
+        0
+      ],
+      "id": "6ae25c0e-616a-4534-a0bf-09a2db04cf25",
+      "name": "AI Lead Qualification",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "592132f0-6573-49a7-928f-5cd3de5df64d",
+              "leftValue": "={{ $json.Action }}",
+              "rightValue": "SALES_CONTACT",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        928,
+        0
+      ],
+      "id": "b4ee4e82-a482-464f-acd0-f2059e647887",
+      "name": "Is Hot Lead?"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Append row in sheet').item.json.Email }}",
+        "subject": "Thank you for contacting us!",
+        "emailType": "text",
+        "message": "=Hi {{ $('Append row in sheet').item.json.Name }},\n\nThank you for reaching out and for your interest in our services.\n\nWe've received your inquiry and appreciate you taking the time to contact us. A member of our team will review your request if further follow-up is needed.\n\nWe look forward to speaking with you.\n\nBest regards,\n\nSales Team\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1136,
+        128
+      ],
+      "id": "8109a527-3158-4458-9ac6-759c2c998d76",
+      "name": "Send Lead Confirmation",
+      "webhookId": "7d83d35b-6455-423a-a3b7-91d122e70a3e",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "Ad3tlKHCw5yPNpyo",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Normalize Lead Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Lead Qualification",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Lead Qualification",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Is Hot Lead?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize Lead Data": {
+      "main": [
+        [
+          {
+            "node": "AI Lead Qualification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Lead Qualification": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Hot Lead?": {
+      "main": [
+        [
+          {
+            "node": "Notify Sales Team",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Lead Confirmation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "6203b384-8fd2-463c-919b-c1742f726db3",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9fa9b2fb1b25375f379ae3e506919f16e6af2b36d24fc706a76e188a095f4306"
+  },
+  "nodeGroups": [],
+  "id": "YyJIJxDWEUgMjn5r",
+  "tags": []
+}
